@@ -4,8 +4,10 @@ import tkinter as tk
 import subprocess
 import threading
 
-cmdStart = 'cd /d D:\dev\Xin_RC_front && npm start'
-cmdStop = 'cd /d D:\dev\Xin_RC_front && npm stop'
+# cmdStart = 'cd /d D:\dev\Xin_RC_front && npm start'
+# cmdStop = 'cd /d D:\dev\Xin_RC_front && taskkill /f /im node.exe'
+cmdStart = 'cd /Users/wangyang/Xin_RC_front/ && npm start'
+cmdStop = 'killall node'
 startPopen = subprocess.Popen(cmdStart, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, shell=True)
 stopPopen = subprocess.Popen(cmdStop, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, shell=True)
 
