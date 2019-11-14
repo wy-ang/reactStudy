@@ -4,25 +4,22 @@ import tkinter as tk
 import subprocess
 import threading
 
-# cmdStart = 'cd /d D:\dev\Xin_RC_front && npm start'
-# cmdStop = 'cd /d D:\dev\Xin_RC_front && taskkill /f /im node.exe'
-cmdStart = 'cd /Users/wangyang/Xin_RC_front/ && npm start'
-cmdStop = 'killall node'
-startPopen = subprocess.Popen(cmdStart, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, shell=True)
-stopPopen = subprocess.Popen(cmdStop, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, shell=True)
+cmdStart = 'cd /d D:\dev\manhole && npm start'
+cmdStop = 'taskkill /f /im node.exe'
 
 def start():
-    for startLine in iter(startPopen.stdout.readline, b''):
+    startPopen = subprocess.Popen(cmdStart, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, shell=True)
+    for startLine in iter(startPopen.stdout.readline, r''):
         t.insert('insert', startLine)
     startPopen.stdout.close()
     startPopen.wait()
 
 def stop():
-    for stopLine in iter(stopPopen.stdout.readline, b''):
-        t.insert('insert', stopLine)
-    stopPopen.stdout.close()
-    stopPopen.wait()
-
+    stopPopen = subprocess.call(cmdStop, shell=True)
+    if(stopPopen==0):
+        t.insert('insert', '服务已停止...\n');
+    else:
+        t.insert('insert', '服务停止失败...\n');
 # 解决点击按钮卡死的情况
 def thread(func, *args):
     '''将函数打包进线程'''
@@ -45,4 +42,5 @@ t.pack()
 tk.Button(root, text='启动',width=15, height=2, command=lambda :thread(start)).pack()
 tk.Button(root, text='停止',width=15, height=2, command=lambda :thread(stop)).pack()
 
+#进入消息循环
 root.mainloop()
