@@ -19,15 +19,15 @@ window = Window()
 label = QLabel(window)
 label.setText('测试')
 
-button = QPushButton(window)
-button.setText('启动')
-button.setProperty('attr', 'open')
-button.move(100, 100)
+openBtn = QPushButton(window)
+openBtn.setText('启动')
+openBtn.setProperty('attr', 'open')
+openBtn.move(100, 100)
 
-button = QPushButton(window)
-button.setText('关闭')
-button.setProperty('attr', 'close')
-button.move(200, 100)
+closeBtn = QPushButton(window)
+closeBtn.setText('关闭')
+closeBtn.setProperty('attr', 'close')
+closeBtn.move(200, 100)
 
 # 展示控件
 window.show()
