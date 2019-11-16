@@ -2,6 +2,10 @@ QLabel{
     font-size: 24px;
     color: #333;
 }
+QLabel[attr="state"]{
+    padding: 0;
+    background-color: #F00;
+}
 QPushButton{
     padding: 10px 26px;
     font-size: 16px;
@@ -13,4 +17,8 @@ QPushButton[attr="open"]{
 QPushButton[attr="close"]{
     border: 1px solid #b90202;
     color: #b90202;
+}
+QPushButton[attr="disable"]{
+    border: 1px solid #ccc;
+    background-color: #ccc
 }
