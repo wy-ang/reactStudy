@@ -1,1 +1,7 @@
-E:\dev\reactItem\manhole
+<VirtualHost>
+  ItemPath "E:\dev\reactItem\manhole1"
+</VirtualHost>
+
+<VirtualHost>
+  ItemPath "E:\dev\reactItem\manhole2"
+</VirtualHost>

@@ -12,9 +12,21 @@ class Window(QWidget, Ui_ReactStudy):
 
     def clickStartBtn(self):
         file = open(cwd + '\config.txt', mode='r')
-        path = file.read()
-        cmd = os.system('cd /d '+ path +' && npm start')
-        print(cmd)
+        try:
+            while True:
+                line = file.readline()
+                if line:
+                    if 'ItemPath ' in line:
+                        item = line.split('ItemPath ')
+                        self.msgView.append(item[1])
+                else:
+                    break
+        finally:
+            file.close()
+        # path = config.split('ItemPath ')
+        # self.msgView.append(path)
+        # cmd = os.system('cd /d '+ path +' && npm start')
+        # print(cmd)
         # startPopen = subprocess.Popen('cd /d ' + path + ' && npm start', stdout=subprocess.PIPE,
         #                               stderr=subprocess.STDOUT, shell=True)
         # for startLine in iter(startPopen.stdout.readline, r''):
