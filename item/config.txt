@@ -1,7 +1,3 @@
 <VirtualHost>
-  ItemPath "E:\dev\reactItem\manhole1"
-</VirtualHost>
-
-<VirtualHost>
-  ItemPath "E:\dev\reactItem\manhole2"
+  ItemPath "D:\dev\manhole"
 </VirtualHost>
