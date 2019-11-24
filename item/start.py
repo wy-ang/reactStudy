@@ -21,11 +21,10 @@ class startAddItemthread(QThread):
     @description: 执行线程相关代码
     '''
     def run(self):
-        # 执行bash命令
-        print(self.isStart)
         if self.isStart:
             # 清空原有路径
             pathList = []
+            # 读取路径配置文件
             file = open(cwd + '\config.txt', mode='r')
             try:
                 while True:
@@ -38,14 +37,11 @@ class startAddItemthread(QThread):
                         break
             finally:
                 file.close()
-            pathStr = 'cd /d ' + eval("".join(pathList)) + ' && npm start -d';
-            startPopen = subprocess.Popen(pathStr, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, shell=True)
-            for line in iter(startPopen.stdout.readline, b''):
-                print(line)
-                cmdList.append(line)
-                print(cmdList)
-            startPopen.stdout.close()
-            startPopen.wait()
+
+            # 启动node进程
+            for list in pathList:
+                pathStr = 'cd /d ' + eval("".join(list)) + ' && npm start -d'
+                subprocess.Popen(pathStr, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, shell=True)
             # 发送信号
             self.startItem.emit()
             self.sleep(1)
@@ -73,7 +69,9 @@ class Window(QWidget, Ui_ReactStudy):
         self.msgView.append('正在启动进程...')
 
     def clickStopBtn(self):
+        # 结束线程
         self.startItemThread.isStart = False
+        # 结束node进程
         stopPopen = subprocess.call('taskkill /f /im node.exe', shell=True)
         if (stopPopen == 0):
             self.msgView.append('进程已停止...')
@@ -83,11 +81,15 @@ class Window(QWidget, Ui_ReactStudy):
         self.startBtn.setEnabled(True)
 
     def clickRestartBtn(self):
-        self.msgView.append('正在重启进程...')
+        # 重启进程
+        self.startItemThread.isStart = True
+        self.startItemThread.start()
         self.stateColor.setStyleSheet('background-color: rgb(0, 170, 0)')
         self.startBtn.setEnabled(False)
+        self.msgView.append('正在重启进程...')
 
     def clickPathConfigBtn(self):
+        # 打开路径配置文件
         os.startfile(cwd + '\config.txt')
 
     def clickUpdateBtn(self):
@@ -109,18 +111,19 @@ if __name__ == '__main__':
     #         if line:
     #             if 'ItemPath ' in line:
     #                 item = line.split('ItemPath ')
-    #                 self.msgView.append(item[1])
+    #                 pathList.append(item[1])
     #         else:
     #             break
     # finally:
     #     file.close()
-    # path = config.split('ItemPath ')
-    # self.msgView.append(path)
-    # cmd = os.system('cd /d '+ path +' && npm start')
+    #pathStr = 'cd /d ' + eval("".join(pathList)) + ' && npm start -d';
+    # cmd = os.system(pathStr)
     # print(cmd)
-    # startPopen = subprocess.Popen('cd /d ' + path + ' && npm start', stdout=subprocess.PIPE,
+    # startPopen = subprocess.Popen(pathStr, stdout=subprocess.PIPE,
     #                               stderr=subprocess.STDOUT, shell=True)
-    # for startLine in iter(startPopen.stdout.readline, r''):
-    #     print(startLine)
+    # for line in iter(startPopen.stdout.readline, b''):
+    #     print(line)
+    #     cmdList.append(line)
+    #     print(cmdList)
     # startPopen.stdout.close()
     # startPopen.wait()

@@ -1,3 +1,7 @@
 <VirtualHost>
   ItemPath "D:\dev\manhole"
 </VirtualHost>
+
+<VirtualHost>
+  ItemPath "D:\dev\jianke_fe"
+</VirtualHost>
