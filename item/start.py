@@ -32,7 +32,8 @@ class startAddItemthread(QThread):
                     if line:
                         if 'ItemPath ' in line:
                             item = line.split('ItemPath ')
-                            pathList.append(item[1])
+                            # 加r防止字符串转义 不然eval会把\r \n 之类的当成回车符、换行符等
+                            pathList.append('r' + item[1])
                     else:
                         break
             finally:
@@ -41,7 +42,9 @@ class startAddItemthread(QThread):
             # 启动node进程
             for list in pathList:
                 pathStr = 'cd /d ' + eval("".join(list)) + ' && npm start -d'
+                print(pathStr)
                 subprocess.Popen(pathStr, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, shell=True)
+                # os.system(pathStr)
             # 发送信号
             self.startItem.emit()
             self.sleep(1)
