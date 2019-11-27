@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
-import os, subprocess
+import os, sys, subprocess
+if hasattr(sys, 'frozen'):
+    os.environ['PATH'] = sys._MEIPASS + ";" + os.environ['PATH']
 from PyQt5.QtWidgets import QApplication, QWidget
 from item.UI.reactStudy import Ui_ReactStudy
 from PyQt5.QtCore import QThread, pyqtSignal
-# from item.watchFile import FileEventHandler
 
 # 获取当前工作目录
 cwd = os.getcwd()
@@ -42,7 +43,6 @@ class startAddItemthread(QThread):
             # 启动node进程
             for list in pathList:
                 pathStr = 'cd /d ' + eval("".join(list)) + ' && npm start -d'
-                print(pathStr)
                 subprocess.Popen(pathStr, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, shell=True)
                 # os.system(pathStr)
             # 发送信号
